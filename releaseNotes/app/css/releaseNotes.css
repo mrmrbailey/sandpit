@@ -1,0 +1,16 @@
+html,body,div,
+{
+	background:transparent no-repeat 0 0;
+	border:0;
+	font-size:100%;
+	outline:0;
+	text-align:center;
+	vertical-align:baseline;
+	margin:0;
+	padding:0;
+}
+
+#cover {
+  font-weight:bold;
+  text-align:right;
+}

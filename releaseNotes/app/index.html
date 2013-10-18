@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" ng-app="releaseNotesApp" data-ng-controller="ReleaseNotesCtrl">
+  <head>
+    <meta charset="utf-8">
+    <title ng-bind-template="Release Notes for {{selectedProject.name}}: {{jiraFixVersion}}">Release Notes</title>
+    
+    <link type="text/css" media="screen" href="css/releaseNotes.css" rel="stylesheet">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="js/controllers.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="selector">
+        <select data-ng-model="selectedProject" data-ng-options="project.name for project in jiraProjects" data-ng-change="fetchProject()">
+          <option value="">--Select Project--</option>
+        </select>
+        
+        <select data-ng-model="selectedIssueTypes" data-ng-options="issueType.name for issueType in availableProject.issueTypes" multiple ng-multiple="true" size="10"> 
+        </select>            
+
+        <select data-ng-model="selectedVersion" data-ng-options="version.name for version in availableProject.versions" data-ng-change="fetchIssues()">
+          <option value="">--Select Version--</option>
+        </select>    
+        
+        <p>Project:{{selectedProject}}</p>
+        <p>Version:{{selectedVersion}}</p>
+      </div>
+      <div>
+        <div id="header">
+          <div id="logo">
+            <img src="img/logo.jpg" alt="GTECH logo" height="99" width="192"/>
+          </div><!--logo-->
+          <div id="cover">
+            <p>GTECH UK</p>
+            <hr>
+            <h1>Release Notes for {{selectedProject.name}}</h1>
+            <p>Revision: {{selectedVersion.name}}</p>
+            <p>{{selectedVersion.releaseDate | date:'dd-MMM-yyyy'}}</p>
+          </div><!--cover-->
+        </div> <!--header-->
+
+        <div id="issues">
+          <h2>Issues Released</h2>
+          <ul>
+             <li ng-repeat="type in selectedIssueTypes">
+               {{type.name}}
+               <div ng-repeat ng-repeat="issue in allIssues">
+               {{issue.fields.issuetype}}
+                 <li ng-if="issue.fields.issuetype = type" >
+                 {{issue.key}} : {{issue.fields.summary}} : {{issue.fields.issuetype.name}}
+                 <li>
+               </div>
+             </li>
+          </ul>
+          <ul>
+            <li ng-repeat="issue in allIssues">
+              {{issue.key}} : {{issue.fields.summary}} : {{issue.fields.issuetype.name}}
+            </li>
+          <ul>
+          
+          <h3>New in this release<h3>
+        </div> <!--issues-->
+      </div>
+    </div> <!--wrapper-->
+  </body>
+</html>
